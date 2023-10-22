@@ -8,6 +8,6 @@ const earnRatesModel = mongoose.Schema(
   }
 );
 
-const Chat = mongoose.model("Card", earnRatesModel);
+const Card = mongoose.model("Card", earnRatesModel);
 
 module.exports = Card;

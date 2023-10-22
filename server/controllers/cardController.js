@@ -16,6 +16,10 @@ exports.deleteCard = (req, res) => {
     
 };
 
+exports.getAllCards = (req, res) => {
+    
+};
+
 
 exports.addCard = (req, res) => {
     
