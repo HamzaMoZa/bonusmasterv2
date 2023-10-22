@@ -1,6 +1,8 @@
 const EarnRates = require('../models/earnRatesModel');
 const Values = require('../models/rewardValuesModel');
 
+// New function to call the Python script and get the best card
+const { spawn } = require('child_process');
 
 exports.fetchAllCards = async (req, res) => {
     try {
@@ -15,6 +17,41 @@ exports.fetchAllCards = async (req, res) => {
     
   };
 
+  exports.getBestCard = async (req, res) => {
+    const { selectedCards, webpageURL } = req.body;
+    
+
+    // Call the Python script (assuming the script is named 'best_card_selector.py' and resides in the 'pythonscripts' directory)
+    const pythonProcess = spawn('python', ['../pythonscript/app.py', JSON.stringify(selectedCards), webpageURL]);
+    // console.log(pythonProcess);
+      
+    let bestCard = null;
+
+    pythonProcess.stdout.on('data', (data) => {
+      
+      console.log("Python Output:", data.toString());
+      try {
+          const result = JSON.parse(data);
+          bestCard = result.best_card;
+          // Handle the result as needed
+          console.log(bestCard);
+          res.json({ bestCard });
+      } catch (error) {
+        console.error("Error parsing Python output:", error);
+        
+
+      }
+    });
+    
+    pythonProcess.stderr.on('data', (data) => {
+        console.error(`Error from Python script: ${data}`);
+        console.error("Python Error:", data.toString());
+        res.status(500).json({ message: 'Internal Server Error' });
+    });
+
+    
+};
+
   // exports.fetchCardById = async (req, res) => {
   //   try {
   //     const cardId = req.body.cardId;
@@ -28,13 +65,7 @@ exports.fetchAllCards = async (req, res) => {
   //   }
   // };  
 
-exports.deleteCard = (req, res) => {
-    
-};
 
-exports.getAllCards = (req, res) => {
-    
-};
 
 
 exports.addCard = (req, res) => {

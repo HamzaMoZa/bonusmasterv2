@@ -1,8 +1,16 @@
 from pymongo import MongoClient
 from bson.objectid import ObjectId  # Import ObjectId to handle object ids
 import openai
+import sys
+import json
+
+
+selected_cards_json = sys.argv[1]
+selected_cards = json.loads(selected_cards_json)
+selected_card_ids = [card["_id"] for card in selected_cards]
+
 # Set up your OpenAI API key
-openai.api_key = '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'
+openai.api_key = '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'
 # Connection parameters
 MONGO_CONNECTION_STRING = "mongodb+srv://sza5988:8ikrhYX69iZtKC3c@cluster0.gy8yo5o.mongodb.net/"
 DB_NAME = "CCPoints"
@@ -41,12 +49,11 @@ def categorize(website_description):
         if category in allowed_categories:
             break
 
-        print(f"Attempt {attempts}: Unexpected category {category}, retrying...")
+        #print(f"Attempt {attempts}: Unexpected category {category}, retrying...")
 
     # If the loop exits without finding a valid category, log a warning
-    if category not in allowed_categories:
-        print(f"Warning: Unable to categorize website after {max_attempts} attempts")
-
+    #if category not in allowed_categories:
+        #print(f"Warning: Unable to categorize website after {max_attempts} attempts")
     return category
 
 def get_best_card(type, card_ids):
@@ -78,13 +85,12 @@ def get_best_card(type, card_ids):
             best_effective_earn_rate = effective_earn_rate
     
     client.close()
-    print(f"The best card for a {type} purchase is: {best_card} with a {best_effective_earn_rate}% reward on the purchase.")
+    #print(f"The best card for a {type} purchase is: {best_card} with a {best_effective_earn_rate}% reward on the purchase.")
     return best_card, best_effective_earn_rate
 
 # Example call with a list of card Object IDs
-card_ids = ['653460dc322d54dd152847f1', '653460dc322d54dd152847f2', '653460dc322d54dd152847f3', '653460dc322d54dd15284803']
+card_ids = selected_card_ids
 website_description = "Explore the world with Booking.com. Big savings on homes, hotels, flights, car rentals, taxis and attractions – build your perfect trip on any budget."
 cat = categorize(website_description)
-print(cat)
 ans = get_best_card(cat, card_ids)
-print(ans)
+print(json.dumps({"best_card": ans[0], "earn_rate": ans[1],"category": cat}))

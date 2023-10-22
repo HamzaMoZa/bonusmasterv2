@@ -1,0 +1,22 @@
+.best-card-container {
+    background-color: #F0F0F0;
+    padding: 16px;
+    border-radius: 8px;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.08);
+  }
+  
+  .best-card-title {
+    font-size: 1.5em;
+    margin-bottom: 16px;
+    color: #003366;
+  }
+  
+  .best-card-name {
+    font-size: 1.2em;
+    color: #555;
+  }
+  
+  .no-recommendation {
+    color: #777;
+  }
+  
