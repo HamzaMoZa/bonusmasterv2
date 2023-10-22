@@ -1,5 +1,5 @@
-const Card = require('./earnRatesModel');
-const Values = require('./rewardValuesModel');
+const Card = require('../models/earnRatesModel');
+const Values = require('../models/rewardValuesModel');
 
 
 exports.fetchAllCards = async (req, res) => {

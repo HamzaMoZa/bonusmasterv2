@@ -13,3 +13,5 @@ function CardList() {
     </div>
   );
 }
+
+export default CardList;

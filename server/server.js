@@ -2,6 +2,8 @@ const express = require('express');
 const mongoose = require('mongoose');
 const path = require("path");
 const connectDB = require("./config/db.js");
+const cards = require('./routes/cardsRoutes.js');
+const app = express();
 
 connectDB();
 app.use(express.json());
@@ -13,3 +15,5 @@ const server = app.listen(
   host,
   console.log(`Server running on PORT ${PORT}...`.yellow.bold)
 );
+
+app.use("/api/cards", cards);

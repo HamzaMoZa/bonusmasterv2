@@ -45,3 +45,5 @@ function CardDropdown() {
   );
  
 }
+
+export default CardDropdown;
