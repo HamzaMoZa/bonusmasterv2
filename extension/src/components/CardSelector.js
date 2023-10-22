@@ -1,49 +1,43 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 
 function CardDropdown() {
   const [cards, setCards] = useState([]);
-  const [selectedCard, setSelectedCard] = useState(null);
 
-  useEffect(() => {
-    async function fetchCards() {
+  const handleDropdownClick = async () => {
+    if (cards.length === 0) { // Only fetch if cards aren't already fetched
       try {
-        const response = await axios.get('/api/cards'); // replace with your API endpoint
+        const response = await axios.get('http://localhost:4000/api/cards/fetchCards');
+        
+        // Log the entire response object to inspect its structure
+        
+
+
+        // Log just the data property of the response
+        
+
         setCards(response.data);
+
       } catch (error) {
-        console.error("Error fetching cards:", error);
+        
       }
     }
+  };
 
-    fetchCards();
-  }, []);
-
-  const handleCardSelect = async (card) => {
-    setSelectedCard(card);
-    await axios.post('/api/addCard', { cardId: card._id }); // replace with your API endpoint
-    // Save card to local storage or any other logic you'd like
-    // Retrieve the existing list of cards
-    let existingCards = localStorage.getItem('selectedCard');
-
-    // Parse it to get the array, if it exists. Otherwise, start with an empty array
-    existingCards = existingCards ? JSON.parse(existingCards) : [];
-
-    // Append the new card to the array
-    existingCards.push(card);
-
-    // Store the updated array back in localStorage
-    localStorage.setItem('selectedCard', JSON.stringify(existingCards));
-  }
+  const handleCardSelect = (cardId) => {
+    // Handle card selection logic here
+  };
 
   return (
-    <select onChange={e => handleCardSelect(e.target.value)}>
+    <select onChange={e => handleCardSelect(e.target.value)} onClick={handleDropdownClick}>
       <option>Select a card</option>
-      {cards.map(card => (
-        <option key={card._id} value={card._id}>{card.CardName}</option>
-      ))}
+      {cards.map(card => {
+        // Log each card during the mapping process
+        console.log("Mapping card:", card);
+        return <option key={card._id} value={card._id}>{card.CardName}</option>
+      })}
     </select>
   );
- 
 }
 
 export default CardDropdown;

@@ -2,12 +2,12 @@ const mongoose = require("mongoose");
 
 const earnRatesModel = mongoose.Schema(
   {
-    CardName: { type: String, trim: true },
+    CardName: { type: String },
     TypeOfPoints: { type: mongoose.Schema.Types.ObjectId },
     EarnRate: {type:Object}
   }
 );
 
-const Card = mongoose.model("Card", earnRatesModel);
+const earnRates = mongoose.model("earnRate", earnRatesModel, "earnRates");
 
-module.exports = Card;
+module.exports = earnRates;
