@@ -4,3 +4,7 @@
     background-color: #f9f9f9; 
     min-height: 100vh; 
 }
+.app-container {
+    width: 700px;
+    margin: 0 auto;
+}

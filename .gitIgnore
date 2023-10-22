@@ -32,3 +32,4 @@ node_modules
 /extension/node_modules/
 /extension/.env*
 /extension/npm-debug.log*
+../.env
