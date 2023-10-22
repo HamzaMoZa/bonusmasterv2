@@ -3,16 +3,19 @@ from bson.objectid import ObjectId  # Import ObjectId to handle object ids
 import openai
 import sys
 import json
+import os
+from dotenv import load_dotenv
 
+load_dotenv()
 
 selected_cards_json = sys.argv[1]
 selected_cards = json.loads(selected_cards_json)
 selected_card_ids = [card["_id"] for card in selected_cards]
 
 # Set up your OpenAI API key
-openai.api_key = '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'
+openai.api_key = os.getenv("OPENAI_API_KEY")
 # Connection parameters
-MONGO_CONNECTION_STRING = "mongodb+srv://sza5988:8ikrhYX69iZtKC3c@cluster0.gy8yo5o.mongodb.net/"
+MONGO_CONNECTION_STRING = os.getenv("MONGO_CONNECTION_STRING")
 DB_NAME = "CCPoints"
 EARN_RATES_COLLECTION = "earnRates"
 POINT_VALUES_COLLECTION = "rewardValues"
